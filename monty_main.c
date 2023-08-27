@@ -1,5 +1,5 @@
 #include "monty.h"
-
+#define _GNU_SOURCE
 global_t vglo = {0};
 
 /**
@@ -9,40 +9,36 @@ global_t vglo = {0};
  * @argv: Argument vector
  * Return: 0 on success
  */
+
 int main(int argc, char *argv[])
 {
 void (*f)(stack_t **stack, unsigned int line_number);
 FILE *fd;
 size_t size = 256;
 ssize_t nlines = 0;
-char *lines[2] = {NULL, NULL};
+char *line = NULL;
 
 fd = check_input(argc, argv);
 start_vglo(fd);
-lines = getline(&vglo.buffer, &size, fd);
-while (nlines != -1)
+    
+while ((nlines = getline(&line, &size, fd)) != -1)
 {
-lines[0] = _strtoky(vglo.buffer, " \t\n");
-if (lines[0] && lines[0][0] != '#')
+vglo.buffer = line;
+f = get_opcodes(vglo.buffer);
+
+if (f)
 {
-f = get_opcodes(lines[0]);
-if (!f)
-{
-fprintf(stderr, "L%u: ", vglo.cont);
-fprintf(stderr, "unknown instruction %s\n", lines[0]);
-free_vglo();
-exit(EXIT_FAILURE);
-            }
 vglo.arg = _strtoky(NULL, " \t\n");
 f(&vglo.head, vglo.cont);
 }
-nlines = getline(&vglo.buffer, &size, fd);
+
 vglo.cont++;
 }
 
+free(line);
 free_vglo();
 
-return (0);
+    return (0);
 }
 
 /**
