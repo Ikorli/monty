@@ -1,6 +1,7 @@
 #include "monty.h"
 
-global_t vglo = {NULL, 0};
+global_t vglo;
+
 /**
  * add_dnodeint_end - Adds a node at the end of a doubly linked list
  *
@@ -18,7 +19,7 @@ return (NULL);
 temp = malloc(sizeof(stack_t));
 if (temp == NULL)
 {
-dprintf(2, "Error: malloc failed\n");
+fprintf(stderr, "Error: malloc failed\n");
 free_vglo();
 exit(EXIT_FAILURE);
 }
@@ -60,7 +61,7 @@ return (NULL);
 temp = malloc(sizeof(stack_t));
 if (temp == NULL)
 {
-dprintf(2, "Error: malloc failed\n");
+fprintf(stderr, "Error: malloc failed\n");
 free_vglo();
 exit(EXIT_FAILURE);
 }

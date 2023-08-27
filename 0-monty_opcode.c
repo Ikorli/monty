@@ -1,6 +1,7 @@
 #include "monty.h"
+#include <stdio.h>
 
-global_t vglo = {NULL};
+global_t vglo = {0};
 /**
  * push - pushes an element to the stack
  *
@@ -14,7 +15,7 @@ int n, j;
 
 if (!vglo.arg)
 {
-dprintf(2, "L%u: usage: push integer\n", line_number);
+fprintf(stderr, "L%u: usage: push integer\n", line_number);
 free_vglo();
 exit(EXIT_FAILURE);
 }
@@ -23,7 +24,7 @@ for (j = 0; vglo.arg[j] != '\0'; j++)
 {
 if (!isdigit(vglo.arg[j]) && vglo.arg[j] != '-')
 {
-dprintf(2, "L%u: usage: push integer\n", line_number);
+fprintf(stderr, "L%u: usage: push integer\n", line_number);
 free_vglo();
 exit(EXIT_FAILURE);
 }
@@ -71,7 +72,7 @@ void pint(stack_t **stack, unsigned int line_number)
 
 if (*stack == NULL)
 {
-dprintf(2, "L%u: can't pint, stack empty\n", line_number);
+fprintf(stderr, "L%u: can't pint, stack empty\n", line_number);
 free_vglo();
 exit(EXIT_FAILURE);
 }
@@ -92,7 +93,7 @@ stack_t *aux;
 
 if (stack == NULL || *stack == NULL)
 {
-dprintf(2, "L%u: can't pop an empty stack\n", line_number);
+fprintf(stderr, "L%u: can't pop an empty stack\n", line_number);
 free_vglo();
 exit(EXIT_FAILURE);
 }
@@ -117,7 +118,7 @@ aux = *stack;
 for (; aux != NULL; aux = aux->next, m++);
 if (m < 2)
 {
-dprintf(2, "L%u: can't swap, stack too short\n", line_number);
+fprintf(stderr, "L%u: can't swap, stack too short\n", line_number);
 free_vglo();
 exit(EXIT_FAILURE);
 }
